@@ -1,4 +1,4 @@
-import { Prop, Schema } from '@nestjs/mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
 export type UserDocument = User & Document;
@@ -23,3 +23,5 @@ export class User {
   @Prop()
   updatedAt?: Date;
 }
+
+export const UserSchema = SchemaFactory.createForClass(User);
