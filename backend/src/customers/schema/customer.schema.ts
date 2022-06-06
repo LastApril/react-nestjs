@@ -3,7 +3,7 @@ import { Document } from 'mongoose';
 
 export type CustomerDocument = Customer & Document;
 
-@Schema({ versionKey: false })
+@Schema({ versionKey: false, timestamps: true })
 export class Customer {
   @Prop({ required: true })
   name: string;
@@ -12,7 +12,10 @@ export class Customer {
   phone: string;
 
   @Prop()
-  timestamps: true;
+  createdAt?: Date;
+
+  @Prop()
+  updatedAt?: Date;
 }
 
 export const CustomerSchema = SchemaFactory.createForClass(Customer);
