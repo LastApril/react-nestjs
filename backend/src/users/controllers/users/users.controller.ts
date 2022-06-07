@@ -9,9 +9,11 @@ import {
   Post,
   Put,
   Res,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
+import { CreateUserDto } from '../../dtos/CreateUsers.dto';
 import { UpdateUserDto } from '../../dtos/UpdateUsers.dto';
-import { User } from '../../schema/user.schema';
 import { UsersService } from '../../services/users/users.service';
 
 @Controller('users')
@@ -19,7 +21,8 @@ export class UsersController {
   constructor(private readonly userService: UsersService) {}
 
   @Post()
-  async createUser(@Res() response, @Body() user: User) {
+  @UsePipes(ValidationPipe)
+  async createUser(@Res() response, @Body() user: CreateUserDto) {
     try {
       const newUser = await this.userService.create(user);
       return response.status(HttpStatus.CREATED).json({
