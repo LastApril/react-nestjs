@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, ObjectId, Types } from 'mongoose';
 import { encodePassword } from '../../../utils/bcrypt';
 import { CreateUserDto } from '../../dtos/CreateUsers.dto';
 import { UpdateUserDto } from '../../dtos/UpdateUsers.dto';
@@ -12,8 +12,8 @@ export class UsersService {
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     const password = await encodePassword(createUserDto.password);
-    console.log(password);
-    const createdUser = new this.userModel({ ...createUserDto, password });
+    const _id = new Types.ObjectId();
+    const createdUser = new this.userModel({ ...createUserDto, _id, password });
     return createdUser.save();
   }
 
@@ -43,5 +43,9 @@ export class UsersService {
 
   async findUserByUsername(userName: string): Promise<User> {
     return this.userModel.findOne({ username: userName });
+  }
+
+  async findUserById(userId: ObjectId): Promise<User> {
+    return this.userModel.findById(userId);
   }
 }
