@@ -6,7 +6,7 @@ import MongoStore from 'connect-mongo';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const TTL = 60 * 1000;
+  const TTL = 5 * 60 * 1000;
   app.setGlobalPrefix('api');
   app.use(
     session({
